@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- memanggil bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+	
+	<script src="./bundle.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="./Leaflet.GraphicScale.min.css">
+	
+	<script src="./Leaflet.GraphicScale.min.js"></script>
+
+	
+  <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+  <link rel="stylesheet" type="text/css"
+    href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
+  <script type="text/javascript" charset="UTF-8"
+    src="https://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
+  <script type="text/javascript" charset="UTF-8"
+    src="https://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
+  <script type="text/javascript" charset="UTF-8"
+    src="https://js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
+  <script type="text/javascript" charset="UTF-8"
+    src="https://js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Final Project SIGWEB </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="final.html">HOME </a>
+      </li>
+     <li class="nav-item">
+        <a class="nav-link" href="api.html">API<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="cpie.html">DATA</a>
+      </li>
+	  
+    </ul>
+    
+      
+	    
+	<button onclick="javascript:getLocationLeaflet();">Lokasi Anda</button>
+   
+  </div>
+</nav>
+
+
+  <div id="map" style="width: 100%; height: 569px; background: grey" />
+  <script  type="text/javascript" charset="UTF-8" >
+    
+/**
+ * Membuat Marker baru
+ * @param {H.map.Group} group       Nama peta
+ * @param {H.geo.Point} coordinate  Lokasi Marker
+ * @param {String} html             Data yang berasosiasi dengan marker (info)
+ */
+function addMarkerToGroup(group, coordinate, html) {
+  var marker = new H.map.Marker(coordinate);
+  // menambahkan data informasi pada marker
+  marker.setData(html);
+  group.addObject(marker);
+}
+
+/**
+ * Click pada marker untuk membuka infobuble dan situs tautannya pada marker
+ * @param  {H.Map} map      HERE MAP yang akan ditampilkan
+ */
+function addInfoBubble(map) {
+  var group = new H.map.Group();
+  map.addObject(group);
+  // add 'tap' event listener, yang akan membuka infobubles pada saat di click
+  group.addEventListener('tap', function (evt) {
+    // event target adalah marker itu sendiri
+    // untuk semua object yang ada di map group
+    var bubble =  new H.ui.InfoBubble(evt.target.getPosition(), {
+      // membaca informasi
+      content: evt.target.getData()
+    });
+    // menampilkan info buble
+    ui.addBubble(bubble);
+  }, false);
+   // Tentukan Lokasi dari dua universitas (marker)
+
+
+	 var a1=addMarkerToGroup(group, {lat:-7.75342589, lng:110.37030904}, '<div > Bengkel <br> <img src="foto/1558412418206.jpg" <br> sebelah timur Jl. monjali,  samping laundry</div>');
+a2=addMarkerToGroup(group, {lat:-7.76343265, lng:110.36937592}, '<div > Bengkel <br> <img src="foto/1558413064567.jpg" <br> Bengkel Yamaha Jl. Monjali. Selatan Primagama</div>');
+a3=addMarkerToGroup(group, {lat:-7.76584814, lng:110.36915257}, '<div > Bengkel <br> <img src="foto/1558413290502.jpg" <br> Ahass Monjali. Timur Jl. Monjali. Selatan lampu merah perempatan jembatan baru UGM</div>');
+a4=addMarkerToGroup(group, {lat:-7.77195091, lng:110.36840299}, '<div > Bengkel <br> <img src="foto/1558413576680.jpg" <br> Yamaha mataram sakti monjali. Selatan batas Kota Jogja</div>');
+a5=addMarkerToGroup(group, {lat:-7.77830681, lng:110.3695849}, '<div > Bengkel <br> <img src="foto/1558413975250.jpg" <br> Utara Jl. Sardjito. Timur lampu merah perempatan Jetis. Timur nadila salon & spa </div>');
+a6=addMarkerToGroup(group, {lat:-7.77830968, lng:110.36970261}, '<div > Bengkel <br> <img src="foto/1558414034138.jpg" <br> Utara Jl. Sardjito. Timur lampu merah perempatan Jetis. Brat nadila salon & spa</div>');
+a7=addMarkerToGroup(group, {lat:-7.76554092, lng:110.37875479}, '<div > Bengkel <br> <img src="foto/1558414850241.jpg" <br> Timur Jl. Kaliurang. Lampu merah perempatan MM UGM</div>');
+a8=addMarkerToGroup(group, {lat:-7.75938935, lng:110.38116333}, '<div > Bengkel <br> <img src="foto/1558415388132.jpg" <br> Yamaha jakal. Timur Jl. Kaliurang</div>');
+a9=addMarkerToGroup(group, {lat:-7.75679685, lng:110.38226542}, '<div > Bengkel <br> <img src="foto/1558415562197.jpg" <br> Honda jakal. Timur Jl. Kaliurang</div>');
+a10=addMarkerToGroup(group, {lat:-7.76021606, lng:110.37210087}, '<div > Bengkel <br> <img src="foto/1558416204361.jpg" <br> Barat Jl. Selokan Mataram. Bengkel Castrol</div>');
+b1=addMarkerToGroup(group, {lat:-7.76672391, lng:110.36913825}, '<div > Bensin Eceran <br> <img src="foto/1558413337216.jpg" <br> Timur Jl. Monjali. Depan warung spesial sambal Monjali</div>');
+b2=addMarkerToGroup(group, {lat:-7.77440964, lng:110.37500232}, '<div > Bensin Eceran <br> <img src="foto/1558414354041.jpg" <br> Timur Jl. Persatuan. Selatan kopma UGM</div>');
+b3=addMarkerToGroup(group, {lat:-7.76360041, lng:110.37951132}, '<div > Bensin Eceran <br> <img src="foto/1558415203425.jpg" <br> Timur Jl. Kaliurang.  Utara fashion story</div>');
+b4=addMarkerToGroup(group, {lat:-7.75806174, lng:110.38192678}, '<div > Bensin Eceran <br> <img src="foto/1558415491484.jpg" <br> Barat Jl. Kaliurang. Timur  artotel</div>');
+b5=addMarkerToGroup(group, {lat:-7.75449454, lng:110.38237975}, '<div > Bensin Eceran <br> <img src="foto/1558415727528.jpg" <br> Utara Jl. Pandega Marta. Utara Indomaret</div>');
+b6=addMarkerToGroup(group, {lat:-7.75658317, lng:110.37272144}, '<div > Bensin Eceran <br> <img src="foto/1558416061568.jpg" <br> Selatan  Jl. Pandega Marta.  Timur pertigaan </div>');
+b7=addMarkerToGroup(group, {lat:-7.76162726, lng:110.37459489}, '<div > Bensin Eceran <br> <img src="foto/1558416442566.jpg" <br> Pogung Dalangan. Toko dimas</div>');
+b8=addMarkerToGroup(group, {lat:-7.76304431, lng:110.37318747}, '<div > Bensin Eceran <br> <img src="foto/1558422157476.jpg" <br> Selatan MasjidSiswa Graha</div>');
+b9=addMarkerToGroup(group, {lat:-7.76208693, lng:110.37329476}, '<div > Bensin Eceran <br> <img src="foto/1558422218365.jpg" <br> Timur Jl. Selokan Mataram. Barat ayam kremes tulang lunak</div>');
+b10=addMarkerToGroup(group, {lat:-7.76175242, lng:110.37305324}, '<div > Bensin Eceran <br> <img src="foto/1558422274219.jpg" <br> Timur Jl. Selokan Mataram. Timur mie ayam </div>');
+b11=addMarkerToGroup(group, {lat:-7.764043, lng:110.37462374}, '<div > Bensin Eceran <br> <img src="foto/1558430884460.jpg" <br> Utara Jl. Pogung Kidul. Pertigaan pogung kidul blok A</div>');
+b12=addMarkerToGroup(group, {lat:-7.77088594, lng:110.37325617}, '<div > Bensin Eceran <br> <img src="foto/1558431071809.jpg" <br> Barat Jl. Kesehatan. Utara Asrama UGM sendowo ,  selatan toko bali</div>');
+b13=addMarkerToGroup(group, {lat:-7.776187, lng:110.37704546}, '<div > Bensin Eceran <br> <img src="foto/1558431451856.jpg" <br> Utara Jl. Colombo. Bunderan UGM, utara panti rapih</div>');
+b14=addMarkerToGroup(group, {lat:-7.77620908, lng:110.37717774}, '<div > Bensin Eceran <br> <img src="foto/1558431517226.jpg" <br> Utara Jl. Colombo. Bunderan UGM,  utara panti rapih</div>');
+c1=addMarkerToGroup(group, {lat:-7.75287415, lng:110.3705848}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558412497505.jpg" <br> Sebelah timur Jl. Monjali.  Depan toko stempel express</div>');
+c2=addMarkerToGroup(group, {lat:-7.75416058, lng:110.37010453}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558412664654.jpg" <br> Sebelah barat Jl. Monjali. Selatan hp service center</div>');
+c3=addMarkerToGroup(group, {lat:-7.77024341, lng:110.36855051}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558413492741.jpg" <br> Batas kota Jogja jl monjali. Depan asrama putra Kutai Kartanegara</div>');
+c4=addMarkerToGroup(group, {lat:-7.77549954, lng:110.3680272}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558413730404.jpg" <br> Timur Jl. Monjali. Utara halte trans jogja. Barat Kampus STIE Nusa Megarkencana</div>');
+c5=addMarkerToGroup(group, {lat:-7.77624058, lng:110.37240894}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558414175466.jpg" <br> Barat Jl. Sardjito. Pertigaan Fisipol MAP UGM</div>');
+c6=addMarkerToGroup(group, {lat:-7.77538486, lng:110.37278326}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558414230049.jpg" <br> Timur Jl. Sardjito. Pertigaan Fisipol MAP UGM</div>');
+c7=addMarkerToGroup(group, {lat:-7.77370045, lng:110.3752954}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558414415118.jpg" <br> Timur Jl. Persatuan. Utara Bank BNI.  Timur Bank Mandiri</div>');
+c8=addMarkerToGroup(group, {lat:-7.77295363, lng:110.37565498}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558414513328.jpg" <br> Timur Jl. Persatuan.  Barat Bank BRI</div>');
+c9=addMarkerToGroup(group, {lat:-7.77213122, lng:110.37589397}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558414562230.jpg" <br> Timur Jl. Persatuan. Utara Bank BRI</div>');
+c10=addMarkerToGroup(group, {lat:-7.77174061, lng:110.37601753}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558414673895.jpg" <br> Timur Jl. Persatuan. Gerbang barat GSP UGM</div>');
+c11=addMarkerToGroup(group, {lat:-7.76456157, lng:110.37906559}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558414954366.jpg" <br> Timur Jl. Kaliurang. Gerbang timur MM UGM</div>');
+c12=addMarkerToGroup(group, {lat:-7.7641082, lng:110.37929511}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558415013611.jpg" <br> Barat  Jl. Kaliurang km 4,5. Timur toko besi dan listrik murah</div>');
+c13=addMarkerToGroup(group, {lat:-7.7565585, lng:110.37275275}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558416020233.jpg" <br> Utara Jl. Pandega Marta.Depan kora pandega</div>');
+c14=addMarkerToGroup(group, {lat:-7.75938584, lng:110.37221465}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558416165857.jpg" <br> Barat Jl. Selokan Mataram. Perempatan Pogung dalangan</div>');
+c15=addMarkerToGroup(group, {lat:-7.76035873, lng:110.37211627}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558416231381.jpg" <br> Barat Jl. Selokan Mataram. Selatan castrol</div>');
+c16=addMarkerToGroup(group, {lat:-7.76332496, lng:110.37364231}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558430829747.jpg" <br> Timur Jl. Selokan Mataram.selatan warung kedaiku</div>');
+c17=addMarkerToGroup(group, {lat:-7.77603639, lng:110.37656219}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558431408407.jpg" <br> Utara Jl. Colombo. Bunderan UGM,  utara panti rapih</div>');
+c18=addMarkerToGroup(group, {lat:-7.77613958, lng:110.37821217}, '<div > Bensin Eceran + Tambal Ban <br> <img src="foto/1558431557030.jpg" <br> Utara Jl. Colombo. Bunderan UGM,  utara panti rapih</div>');
+d1=addMarkerToGroup(group, {lat:-7.75627566, lng:110.3705664}, '<div > Bensin Eceran + Tambal Ban + Bengkel <br> <img src="foto/1558412258028.jpg" <br> Jl.  Tirtamarta 1, Pandega. Selatan PDAM monjali,  Timur soto ijo</div>');
+d2=addMarkerToGroup(group, {lat:-7.76581191, lng:110.36912266}, '<div > Bensin Eceran + Tambal Ban + Bengkel <br> <img src="foto/1558413249017.jpg" <br> Timur Jl. Monjali. Utara ahas monjali</div>');
+d3=addMarkerToGroup(group, {lat:-7.77636429, lng:110.36786839}, '<div > Tambal Ban <br> <img src="foto/1558413808390.jpg" <br> Timur Jl. Pangeran Mangkubumi. Barat SMK 2 Yogyakarta</div>');
+d4=addMarkerToGroup(group, {lat:-7.77206518, lng:110.3759585}, '<div > Tambal Ban <br> <img src="foto/1558414622601.jpg" <br> Timur Jl. Persatuan. Barat BRI</div>');
+d5=addMarkerToGroup(group, {lat:-7.76543821, lng:110.3690668}, '<div > Tambal Ban <br> <img src="foto/1558413180806.jpg" <br> Timur Jl. Monjali. Utara Upload Steak</div>');
+d6=addMarkerToGroup(group, {lat:-7.76772982, lng:110.36892382}, '<div > Tambal Ban <br> <img src="foto/1558413403697.jpg" <br> Barat Jl. Monjali. Selatan Yamie Panda</div>');
+d7=addMarkerToGroup(group, {lat:-7.77395307, lng:110.36819803}, '<div > Tambal Ban <br> <img src="foto/1558413673613.jpg" <br> Barat Jl. Monjali. Timur hotel tentrem</div>');
+d8=addMarkerToGroup(group, {lat:-7.77364953, lng:110.37533077}, '<div > Tambal Ban <br> <img src="foto/1558414469664.jpg" <br> Barat Jl. Persatuan. Utara Bank Mandiri</div>');
+d9=addMarkerToGroup(group, {lat:-7.75942813, lng:110.38115831}, '<div > Tambal Ban <br> <img src="foto/1558415354748.jpg" <br> Timur Jl. Kaliurang. Selatan after 9</div>');
+d10=addMarkerToGroup(group, {lat:-7.75849002, lng:110.38163632}, '<div > Tambal Ban <br> <img src="foto/1558415436462.jpg" <br> Barat Jl. Kaliurang. Timur apartemen utara</div>');
+d11=addMarkerToGroup(group, {lat:-7.75571355, lng:110.3778495}, '<div > Tambal Ban <br> <img src="foto/1558415865893.jpg" <br> Selatan Jl. Pandega Marta. Timur perempatan Pogung baru</div>');
+d12=addMarkerToGroup(group, {lat:-7.76728991, lng:110.3744307}, '<div > Tambal Ban <br> <img src="foto/1558421958694.jpg" <br> Barat Jl. Kesehatan. Barat gerbang mipa</div>');
+d13=addMarkerToGroup(group, {lat:-7.77611891, lng:110.3756881}, '<div > Tambal Ban <br> <img src="foto/1558431352381.jpg" <br> Utara Jl. Terban. Depan pos menwa</div>');
+e1=addMarkerToGroup(group, {lat:-7.75191005, lng:110.37092564}, '<div > Tambal Ban + Bengkel <br> <img src="foto/1558412581234.jpg" <br> Sebelah Barat Jl. Monjali.  Selatan lampu merah perempatan  ringroad utara </div>');
+e2=addMarkerToGroup(group, {lat:-7.75652352, lng:110.36983992}, '<div > Tambal Ban + Bengkel <br> <img src="foto/1558412750243.jpg" <br> sebelah barat Jl. Monjali. Barat warung rata-rata</div>');
+e3=addMarkerToGroup(group, {lat:-7.76382777, lng:110.36926607}, '<div > Tambal Ban + Bengkel <br> <img src="foto/1558413109820.jpg" <br> Barat Jl. Monjali.  Depan bengkel Yamaha Monjali</div>');
+e4=addMarkerToGroup(group, {lat:-7.77815958, lng:110.36831966}, '<div > Tambal Ban + Bengkel <br> <img src="foto/1558413909473.jpg" <br> Utara Jl. Sardjito. Timur masjid darul ulum. Lampu merah perempatan  Jetis</div>');
+e5=addMarkerToGroup(group, {lat:-7.76207406, lng:110.37759746}, '<div > Tambal Ban + Bengkel <br> <img src="foto/1558416776286.jpg" <br> Jl. Sitisonyo. Utara Masjid Nurul Barokah</div>');
+f1=addMarkerToGroup(group, {lat:-7.75609687, lng:110.38259528}, '<div > Tambal Ban + Pom Bensin <br> <img src="foto/1558415610549.jpg" <br> SPBU jakal. Timur Jl. Kaliurang</div>');
+f2=addMarkerToGroup(group, {lat:-7.76025676, lng:110.36948973}, '<div > Tambal Ban + Pom Bensin <br> <img src="foto/1558412878575.jpg" <br> Jl. Monjali. Utara bakso tengkleng</div>');
+
+var all = H.layerGroup([a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, b1, b2, b3, b3, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, d1, d2, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, f1, f2, f3, f4, f5, h1, h2
+]).addTo(map);
+	var bengkel = L.layerGroup([a1, a2, a3, a4, a5, a6, a7, a8, a9, a10]);
+	var bensin = L.layerGroup([b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14]);
+	var tambal = L.layerGroup([e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11]);
+	var pom = L.layerGroup([h1, h2]);
+	var bentam = L.layerGroup([b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18]);
+	var tambeng = L.layerGroup([f1, f2, f3, f4, f5]);
+	var etambeng = L.layerGroup([d1, d2]);
+
+}
+
+/**
+ * Untuk PETA dasar yang akan digunakan dimulai di sini:
+ */
+
+// masukkan credential berupa app_id dan app_code yang kita peroleh saat register
+var platform = new H.service.Platform({
+  app_id: '4vVzO0wg7zINl0vZPNJ6',
+  app_code: 'FO-RtqpGR1qryuZ7yeKn7Q',
+  useCIT: true,
+  useHTTPS: true
+});
+var defaultLayers = platform.createDefaultLayers();
+
+// tentukan lokasi peta dan tingkat zoom, lokasi pada kali ini di Surabaya
+// semakin besar angka zoom, maka akan semakin dekat dengan peta
+var map = new H.Map(document.getElementById('map'),
+  defaultLayers.normal.map,{
+  center: {lat: -7.76000000, lng: 110.36920000},
+  zoom: 14
+});
+
+// MapEvents enables the event system
+// Behavior ini adalah menentukan tool apa saja yang akan kita tampilan, kali ini akan ditampilan pan dan zoom
+//  anda dapat menampilkan tool yang lain seperti basemap, mylocation dsb
+var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+// create default UI with layers provided by the platform
+var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+// Now use the map as required...
+// menambahkan infobubles kedalam peta
+
+addInfoBubble(map);
+  </script>
+</body>
+</html>

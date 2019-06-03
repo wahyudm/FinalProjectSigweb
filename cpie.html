@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>Pie Chart</title>
+	<script src="Chart.min.js"></script>
+	<script src="utils.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="marker/style.css">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Final Project SIGWEB </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="final.html">HOME</a>
+      </li>
+     <li class="nav-item">
+        <a class="nav-link" href="api.html">API</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="cpie.html">DATA<span class="sr-only">(current)</span></a>
+      </li>
+	  
+    </ul>
+    
+      
+	    
+
+   
+  </div>
+</nav>
+	<div id="canvas-holder" style="width:75%">
+		<canvas id="chart-area"></canvas>
+	</div>
+	<script>
+		var oilCanvas = document.getElementById("chart-area");
+
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 20;
+
+var oilData = {
+    labels: [
+        "Bensin Eceran",
+        "Bengkel",
+        "Tambal Ban",
+        "Bensin Eceran + Tambal Ban",
+		"Bengkel + Tambal Ban",
+		"Pom Bensin",
+		"Bensin Eceran + Tambal Ban + Bengkel"
+    ],
+    datasets: [
+        {
+            data: [14, 10, 11, 18, 5, 2, 2],
+            backgroundColor: [
+                "#FF6384",
+                "#63FF84",
+                "#84FF63",
+                "#8463FF",
+				"#F1C40F",
+				"#95A5A6",
+                "#6384FF"
+            ]
+        }]
+};
+
+var pieChart = new Chart(oilCanvas, {
+  type: 'pie',
+  data: oilData
+});
+	</script>
+
+<table cellspacing='0'>
+		<thead>
+			<tr>
+				<th>No</th>
+				<th>Jenis</th>
+				<th>Jumlah</th>
+				<th> </th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>Bensin Eceran</td>
+				<td>14</td>
+				<td><a href="tabel1.html">Lihat Data</a></td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>Bengkel</td>
+				<td>10</td>
+				<td><a href="tabel2.html">Lihat Data</a></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>Tambal Ban</td>
+				<td>11</td>
+				<td><a href="tabel3.html">Lihat Data</a></td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>Pom Bensin</td>
+				<td>2</td>
+				<td><a href="tabel4.html">Lihat Data</a></td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>Bensin Eceran + Tambal Ban</td>
+				<td>18</td>
+				<td><a href="tabel5.html">Lihat Data</a></td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>Bengkel + Tambal Ban</td>
+				<td>5</td>
+				<td><a href="tabel6.html">Lihat Data</a></td>
+			</tr>
+			<tr>
+				<td>7</td>
+				<td>Bensin Eceran + Tambal Ban + Bengkel</td>
+				<td>2</td>
+				<td><a href="tabel7.html">Lihat Data</a></td>
+			</tr>
+		</tbody>
+	</table>	
+</body>
+
+</html>

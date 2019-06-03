@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet Web Map</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+	
+	<!-- memanggil bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+	
+	<script src="./bundle.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="./Leaflet.GraphicScale.min.css">
+	
+	<script src="./Leaflet.GraphicScale.min.js"></script>
+
+	
+	<style>
+	#map {
+		height: calc(100vh - 56px);
+	}
+	</style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Final Project SIGWEB </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="final.html">HOME <span class="sr-only">(current)</span></a>
+      </li>
+     <li class="nav-item">
+        <a class="nav-link" href="api.html">API</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="cpie.html">DATA</a>
+      </li>
+	  
+    </ul>
+    
+      
+	    
+	<button onclick="javascript:getLocationLeaflet();">Lokasi Anda</button>
+   
+  </div>
+</nav>
+	<!-- container peta -->
+	<div id="map"></div>
+	
+	<!-- script peta -->
+    <script>
+	var map = L.map('map',{
+        center: [-7.7638235, 110.3736426,619],
+        zoom: 14.5
+        });
+		
+	var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+	}).addTo(map);
+	
+	var esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+	});
+	
+	map.locate({setView: true, maxZoom: 16});
+		
+	function onLocationFound(e) {
+         var radius = e.accuracy / 2;
+         var location = e.latlng
+         L.marker(location).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup();
+         L.circle(location, radius).addTo(map);
+      }
+
+      function onLocationError(e) {
+         alert(e.message);
+      }
+
+      function getLocationLeaflet() {
+         map.on('locationfound', onLocationFound);
+         map.on('locationerror', onLocationError);
+
+         map.locate({setView: true, maxZoom: 16});
+      }
+	
+	var abu = L.icon({
+    iconUrl: 'marker/abu.png',
+    iconSize:     [40, 40], // size of the icon
+	iconAnchor:   [20, 20], // point of the icon which will correspond to marker's location	
+    popupAnchor:  [0, -10] // point from which the popup should open relative to the iconAnchor
+	});
+	var merah = L.icon({
+    iconUrl: 'marker/merah.png',
+    iconSize:     [40, 40], // size of the icon
+	iconAnchor:   [20, 20], // point of the icon which will correspond to marker's location	
+    popupAnchor:  [0, -10] // point from which the popup should open relative to the iconAnchor
+	});
+	var kuning = L.icon({
+    iconUrl: 'marker/kuning.png',
+     iconSize:     [40, 40], // size of the icon
+	iconAnchor:   [20, 20], // point of the icon which will correspond to marker's location	
+    popupAnchor:  [0, -10] // point from which the popup should open relative to the iconAnchor
+	});
+	var hijau = L.icon({
+    iconUrl: 'marker/hijau.png',
+    iconSize:     [40, 40], // size of the icon
+	iconAnchor:   [20, 20], // point of the icon which will correspond to marker's location	
+    popupAnchor:  [0, -10] // point from which the popup should open relative to the iconAnchor
+	});
+	var hitam = L.icon({
+    iconUrl: 'marker/hitam.png',
+     iconSize:     [40, 40], // size of the icon
+	iconAnchor:   [20, 20], // point of the icon which will correspond to marker's location	
+    popupAnchor:  [0, -10] // point from which the popup should open relative to the iconAnchor
+	});
+	var oren = L.icon({
+    iconUrl: 'marker/oren.png',
+     iconSize:     [40, 40], // size of the icon
+	iconAnchor:   [20, 20], // point of the icon which will correspond to marker's location	
+    popupAnchor:  [0, -10] // point from which the popup should open relative to the iconAnchor
+	});
+	var ungu = L.icon({
+    iconUrl: 'marker/ungu.png',
+     iconSize:     [40, 40], // size of the icon
+	iconAnchor:   [20, 20], // point of the icon which will correspond to marker's location	
+    popupAnchor:  [0, -10] // point from which the popup should open relative to the iconAnchor
+	});
+	
+	
+	var a1 = L.marker([-7.75342589, 110.37030904]).bindPopup('Bengkel <br> <img src = "foto/1558412418206.jpg" /> <br>sebelah timur Jl. monjali,  samping laundry').addTo(map),
+		a2 = L.marker([-7.76343265, 110.36937592]).bindPopup('Bengkel <br> <img src = "foto/1558413064567.jpg" /> <br>Bengkel Yamaha Jl. Monjali. Selatan Primagama').addTo(map),
+		a3 = L.marker([-7.76584814, 110.36915257]).bindPopup('Bengkel <br> <img src = "foto/1558413290502.jpg" /> <br>Ahass Monjali. Timur Jl. Monjali. Selatan lampu merah perempatan jembatan baru UGM').addTo(map),
+		a4 = L.marker([-7.77195091, 110.36840299]).bindPopup('Bengkel <br> <img src = "foto/1558413576680.jpg" /> <br>Yamaha mataram sakti monjali. Selatan batas Kota Jogja').addTo(map),
+		a5 = L.marker([-7.77830681, 110.3695849]).bindPopup('Bengkel <br> <img src = "foto/1558413975250.jpg" /> <br>Utara Jl. Sardjito. Timur lampu merah perempatan Jetis. Timur nadila salon & spa ').addTo(map),
+		a6 = L.marker([-7.77830968, 110.36970261]).bindPopup('Bengkel <br> <img src = "foto/1558414034138.jpg" /> <br>Utara Jl. Sardjito. Timur lampu merah perempatan Jetis. Brat nadila salon & spa').addTo(map),
+		a7 = L.marker([-7.76554092, 110.37875479]).bindPopup('Bengkel <br> <img src = "foto/1558414850241.jpg" /> <br>Timur Jl. Kaliurang. Lampu merah perempatan MM UGM').addTo(map),
+		a8 = L.marker([-7.75938935, 110.38116333]).bindPopup('Bengkel <br> <img src = "foto/1558415388132.jpg" /> <br>Yamaha jakal. Timur Jl. Kaliurang').addTo(map),
+		a9 = L.marker([-7.75679685, 110.38226542]).bindPopup('Bengkel <br> <img src = "foto/1558415562197.jpg" /> <br>Honda jakal. Timur Jl. Kaliurang').addTo(map),
+		a10 = L.marker([-7.76021606, 110.37210087]).bindPopup('Bengkel <br> <img src = "foto/1558416204361.jpg" /> <br>Barat Jl. Selokan Mataram. Bengkel Castrol').addTo(map),
+		a11 = L.marker([-7.76672391, 110.36913825]).bindPopup('Bensin Eceran <br> <img src = "foto/1558413337216.jpg" /> <br>Timur Jl. Monjali. Depan warung spesial sambal Monjali').addTo(map),
+		a12 = L.marker([-7.77440964, 110.37500232]).bindPopup('Bensin Eceran <br> <img src = "foto/1558414354041.jpg" /> <br>Timur Jl. Persatuan. Selatan kopma UGM').addTo(map),
+		a13 = L.marker([-7.76360041, 110.37951132]).bindPopup('Bensin Eceran <br> <img src = "foto/1558415203425.jpg" /> <br>Timur Jl. Kaliurang.  Utara fashion story').addTo(map),
+		a14 = L.marker([-7.75806174, 110.38192678]).bindPopup('Bensin Eceran <br> <img src = "foto/1558415491484.jpg" /> <br>Barat Jl. Kaliurang. Timur  artotel').addTo(map),
+		a15 = L.marker([-7.75449454, 110.38237975]).bindPopup('Bensin Eceran <br> <img src = "foto/1558415727528.jpg" /> <br>Utara Jl. Pandega Marta. Utara Indomaret').addTo(map),
+		a16 = L.marker([-7.75658317, 110.37272144]).bindPopup('Bensin Eceran <br> <img src = "foto/1558416061568.jpg" /> <br>Selatan  Jl. Pandega Marta.  Timur pertigaan ').addTo(map),
+		a17 = L.marker([-7.76162726, 110.37459489]).bindPopup('Bensin Eceran <br> <img src = "foto/1558416442566.jpg" /> <br>Pogung Dalangan. Toko dimas').addTo(map),
+		a18 = L.marker([-7.76304431, 110.37318747]).bindPopup('Bensin Eceran <br> <img src = "foto/1558422157476.jpg" /> <br>Selatan MasjidSiswa Graha').addTo(map),
+		a19 = L.marker([-7.76208693, 110.37329476]).bindPopup('Bensin Eceran <br> <img src = "foto/1558422218365.jpg" /> <br>Timur Jl. Selokan Mataram. Barat ayam kremes tulang lunak').addTo(map),
+		a20 = L.marker([-7.76175242, 110.37305324]).bindPopup('Bensin Eceran <br> <img src = "foto/1558422274219.jpg" /> <br>Timur Jl. Selokan Mataram. Timur mie ayam ').addTo(map),
+		a21 = L.marker([-7.764043, 110.37462374]).bindPopup('Bensin Eceran <br> <img src = "foto/1558430884460.jpg" /> <br>Utara Jl. Pogung Kidul. Pertigaan pogung kidul blok A').addTo(map),
+		a22 = L.marker([-7.77088594, 110.37325617]).bindPopup('Bensin Eceran <br> <img src = "foto/1558431071809.jpg" /> <br>Barat Jl. Kesehatan. Utara Asrama UGM sendowo ,  selatan toko bali').addTo(map),
+		a23 = L.marker([-7.776187, 110.37704546]).bindPopup('Bensin Eceran <br> <img src = "foto/1558431451856.jpg" /> <br>Utara Jl. Colombo. Bunderan UGM, utara panti rapih').addTo(map),
+		a24 = L.marker([-7.77620908, 110.37717774]).bindPopup('Bensin Eceran <br> <img src = "foto/1558431517226.jpg" /> <br>Utara Jl. Colombo. Bunderan UGM,  utara panti rapih').addTo(map),
+		a25 = L.marker([-7.75287415, 110.3705848]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558412497505.jpg" /> <br>Sebelah timur Jl. Monjali.  Depan toko stempel express').addTo(map),
+		a26 = L.marker([-7.75416058, 110.37010453]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558412664654.jpg" /> <br>Sebelah barat Jl. Monjali. Selatan hp service center').addTo(map),
+		a27 = L.marker([-7.77024341, 110.36855051]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558413492741.jpg" /> <br>Batas kota Jogja jl monjali. Depan asrama putra Kutai Kartanegara').addTo(map),
+		a28 = L.marker([-7.77549954, 110.3680272]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558413730404.jpg" /> <br>Timur Jl. Monjali. Utara halte trans jogja. Barat Kampus STIE Nusa Megarkencana').addTo(map),
+		a29 = L.marker([-7.77624058, 110.37240894]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414175466.jpg" /> <br>Barat Jl. Sardjito. Pertigaan Fisipol MAP UGM').addTo(map),
+		a30 = L.marker([-7.77538486, 110.37278326]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414230049.jpg" /> <br>Timur Jl. Sardjito. Pertigaan Fisipol MAP UGM').addTo(map),
+		a31 = L.marker([-7.77370045, 110.3752954]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414415118.jpg" /> <br>Timur Jl. Persatuan. Utara Bank BNI.  Timur Bank Mandiri').addTo(map),
+		a32 = L.marker([-7.77295363, 110.37565498]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414513328.jpg" /> <br>Timur Jl. Persatuan.  Barat Bank BRI').addTo(map),
+		a33 = L.marker([-7.77213122, 110.37589397]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414562230.jpg" /> <br>Timur Jl. Persatuan. Utara Bank BRI').addTo(map),
+		a34 = L.marker([-7.77174061, 110.37601753]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414673895.jpg" /> <br>Timur Jl. Persatuan. Gerbang barat GSP UGM').addTo(map),
+		a35 = L.marker([-7.76456157, 110.37906559]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414954366.jpg" /> <br>Timur Jl. Kaliurang. Gerbang timur MM UGM').addTo(map),
+		a36 = L.marker([-7.7641082, 110.37929511]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558415013611.jpg" /> <br>Barat  Jl. Kaliurang km 4,5. Timur toko besi dan listrik murah').addTo(map),
+		a37 = L.marker([-7.7565585, 110.37275275]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558416020233.jpg" /> <br>Utara Jl. Pandega Marta.Depan kora pandega').addTo(map),
+		a38 = L.marker([-7.75938584, 110.37221465]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558416165857.jpg" /> <br>Barat Jl. Selokan Mataram. Perempatan Pogung dalangan').addTo(map),
+		a39 = L.marker([-7.76035873, 110.37211627]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558416231381.jpg" /> <br>Barat Jl. Selokan Mataram. Selatan castrol').addTo(map),
+		a40 = L.marker([-7.76332496, 110.37364231]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558430829747.jpg" /> <br>Timur Jl. Selokan Mataram.selatan warung kedaiku').addTo(map),
+		a41 = L.marker([-7.77603639, 110.37656219]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558431408407.jpg" /> <br>Utara Jl. Colombo. Bunderan UGM,  utara panti rapih').addTo(map),
+		a42 = L.marker([-7.77613958, 110.37821217]).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558431557030.jpg" /> <br>Utara Jl. Colombo. Bunderan UGM,  utara panti rapih').addTo(map),
+		a43 = L.marker([-7.76025676, 110.36948973]).bindPopup('Tambal Ban + Pom Bensin <br> <img src = "foto/1558412878575.jpg" /> <br>Jl. Monjali. Utara bakso tengkleng').addTo(map),
+		a44 = L.marker([-7.75609687, 110.38259528]).bindPopup('Tambal Ban + Pom Bensin <br> <img src = "foto/1558415610549.jpg" /> <br>SPBU jakal. Timur Jl. Kaliurang').addTo(map),
+		a45 = L.marker([-7.75191005, 110.37092564]).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558412581234.jpg" /> <br>Sebelah Barat Jl. Monjali.  Selatan lampu merah perempatan  ringroad utara ').addTo(map),
+		a46 = L.marker([-7.75652352, 110.36983992]).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558412750243.jpg" /> <br>sebelah barat Jl. Monjali. Barat warung rata-rata').addTo(map),
+		a47 = L.marker([-7.76382777, 110.36926607]).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558413109820.jpg" /> <br>Barat Jl. Monjali.  Depan bengkel Yamaha Monjali').addTo(map),
+		a48 = L.marker([-7.77815958, 110.36831966]).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558413909473.jpg" /> <br>Utara Jl. Sardjito. Timur masjid darul ulum. Lampu merah perempatan  Jetis').addTo(map),
+		a49 = L.marker([-7.76207406, 110.37759746]).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558416776286.jpg" /> <br>Jl. Sitisonyo. Utara Masjid Nurul Barokah').addTo(map),
+		a50 = L.marker([-7.77636429, 110.36786839]).bindPopup('Tambal Ban <br> <img src = "foto/1558413808390.jpg" /> <br>Timur Jl. Pangeran Mangkubumi. Barat SMK 2 Yogyakarta').addTo(map),
+		a51 = L.marker([-7.77206518, 110.3759585]).bindPopup('Tambal Ban <br> <img src = "foto/1558414622601.jpg" /> <br>Timur Jl. Persatuan. Barat BRI').addTo(map),
+		a52 = L.marker([-7.76543821, 110.3690668]).bindPopup('Tambal Ban <br> <img src = "foto/1558413180806.jpg" /> <br>Timur Jl. Monjali. Utara Upload Steak').addTo(map),
+		a53 = L.marker([-7.76772982, 110.36892382]).bindPopup('Tambal Ban <br> <img src = "foto/1558413403697.jpg" /> <br>Barat Jl. Monjali. Selatan Yamie Panda').addTo(map),
+		a54 = L.marker([-7.77395307, 110.36819803]).bindPopup('Tambal Ban <br> <img src = "foto/1558413673613.jpg" /> <br>Barat Jl. Monjali. Timur hotel tentrem').addTo(map),
+		a55 = L.marker([-7.77364953, 110.37533077]).bindPopup('Tambal Ban <br> <img src = "foto/1558414469664.jpg" /> <br>Barat Jl. Persatuan. Utara Bank Mandiri').addTo(map),
+		a56 = L.marker([-7.75942813, 110.38115831]).bindPopup('Tambal Ban <br> <img src = "foto/1558415354748.jpg" /> <br>Timur Jl. Kaliurang. Selatan after 9').addTo(map),
+		a57 = L.marker([-7.75849002, 110.38163632]).bindPopup('Tambal Ban <br> <img src = "foto/1558415436462.jpg" /> <br>Barat Jl. Kaliurang. Timur apartemen utara').addTo(map),
+		a58 = L.marker([-7.75571355, 110.3778495]).bindPopup('Tambal Ban <br> <img src = "foto/1558415865893.jpg" /> <br>Selatan Jl. Pandega Marta. Timur perempatan Pogung baru').addTo(map),
+		a59 = L.marker([-7.76728991, 110.3744307]).bindPopup('Tambal Ban <br> <img src = "foto/1558421958694.jpg" /> <br>Barat Jl. Kesehatan. Barat gerbang mipa').addTo(map),
+		a60 = L.marker([-7.77611891, 110.3756881]).bindPopup('Tambal Ban <br> <img src = "foto/1558431352381.jpg" /> <br>Utara Jl. Terban. Depan pos menwa').addTo(map),
+		a61 = L.marker([-7.75627566, 110.3705664]).bindPopup('Bensin Eceran + Tambal Ban + Bengkel <br> <img src = "foto/1558412258028.jpg" /> <br>Jl.  Tirtamarta 1, Pandega. Selatan PDAM monjali,  Timur soto ijo').addTo(map),
+		a62 = L.marker([-7.76581191, 110.36912266]).bindPopup('Bensin Eceran + Tambal Ban + Bengkel <br> <img src = "foto/1558413249017.jpg" /> <br>Timur Jl. Monjali. Utara ahas monjali').addTo(map),
+		b1 = L.marker([-7.75342589, 110.37030904], {icon:merah}).bindPopup('Bengkel <br> <img src = "foto/1558412418206.jpg" /> <br>sebelah timur Jl. monjali,  samping laundry'),
+		b2 = L.marker([-7.76343265, 110.36937592], {icon:merah}).bindPopup('Bengkel <br> <img src = "foto/1558413064567.jpg" /> <br>Bengkel Yamaha Jl. Monjali. Selatan Primagama'),
+		b3 = L.marker([-7.76584814, 110.36915257], {icon:merah}).bindPopup('Bengkel <br> <img src = "foto/1558413290502.jpg" /> <br>Ahass Monjali. Timur Jl. Monjali. Selatan lampu merah perempatan jembatan baru UGM'),
+		b4 = L.marker([-7.77195091, 110.36840299], {icon:merah}).bindPopup('Bengkel <br> <img src = "foto/1558413576680.jpg" /> <br>Yamaha mataram sakti monjali. Selatan batas Kota Jogja'),
+		b5 = L.marker([-7.77830681, 110.3695849], {icon:merah}).bindPopup('Bengkel <br> <img src = "foto/1558413975250.jpg" /> <br>Utara Jl. Sardjito. Timur lampu merah perempatan Jetis. Timur nadila salon & spa '),
+		b6 = L.marker([-7.77830968, 110.36970261], {icon:merah}).bindPopup('Bengkel <br> <img src = "foto/1558414034138.jpg" /> <br>Utara Jl. Sardjito. Timur lampu merah perempatan Jetis. Brat nadila salon & spa'),
+		b7 = L.marker([-7.76554092, 110.37875479], {icon:merah}).bindPopup('Bengkel <br> <img src = "foto/1558414850241.jpg" /> <br>Timur Jl. Kaliurang. Lampu merah perempatan MM UGM'),
+		b8 = L.marker([-7.75938935, 110.38116333], {icon:merah}).bindPopup('Bengkel <br> <img src = "foto/1558415388132.jpg" /> <br>Yamaha jakal. Timur Jl. Kaliurang'),
+		b9 = L.marker([-7.75679685, 110.38226542], {icon:merah}).bindPopup('Bengkel <br> <img src = "foto/1558415562197.jpg" /> <br>Honda jakal. Timur Jl. Kaliurang'),
+		b10 = L.marker([-7.76021606, 110.37210087], {icon:merah}).bindPopup('Bengkel <br> <img src = "foto/1558416204361.jpg" /> <br>Barat Jl. Selokan Mataram. Bengkel Castrol'),
+		b11 = L.marker([-7.75191005, 110.37092564], {icon:merah}).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558412581234.jpg" /> <br>Sebelah Barat Jl. Monjali.  Selatan lampu merah perempatan  ringroad utara '),
+		b12 = L.marker([-7.75652352, 110.36983992], {icon:merah}).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558412750243.jpg" /> <br>sebelah barat Jl. Monjali. Barat warung rata-rata'),
+		b13 = L.marker([-7.76382777, 110.36926607], {icon:merah}).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558413109820.jpg" /> <br>Barat Jl. Monjali.  Depan bengkel Yamaha Monjali'),
+		b14 = L.marker([-7.77815958, 110.36831966], {icon:merah}).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558413909473.jpg" /> <br>Utara Jl. Sardjito. Timur masjid darul ulum. Lampu merah perempatan  Jetis'),
+		b15 = L.marker([-7.76207406, 110.37759746], {icon:merah}).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558416776286.jpg" /> <br>Jl. Sitisonyo. Utara Masjid Nurul Barokah'),
+		b16 = L.marker([-7.75627566, 110.3705664], {icon:merah}).bindPopup('Bensin Eceran + Tambal Ban + Bengkel <br> <img src = "foto/1558412258028.jpg" /> <br>Jl.  Tirtamarta 1, Pandega. Selatan PDAM monjali,  Timur soto ijo'),
+		b17 = L.marker([-7.76581191, 110.36912266], {icon:merah}).bindPopup('Bensin Eceran + Tambal Ban + Bengkel <br> <img src = "foto/1558413249017.jpg" /> <br>Timur Jl. Monjali. Utara ahas monjali'),
+		c1 = L.marker([-7.76672391, 110.36913825], {icon:kuning}).bindPopup('Bensin Eceran <br> <img src = "foto/1558413337216.jpg" /> <br>Timur Jl. Monjali. Depan warung spesial sambal Monjali'),
+		c2 = L.marker([-7.77440964, 110.37500232], {icon:kuning}).bindPopup('Bensin Eceran <br> <img src = "foto/1558414354041.jpg" /> <br>Timur Jl. Persatuan. Selatan kopma UGM'),
+		c3 = L.marker([-7.76360041, 110.37951132], {icon:kuning}).bindPopup('Bensin Eceran <br> <img src = "foto/1558415203425.jpg" /> <br>Timur Jl. Kaliurang.  Utara fashion story'),
+		c4 = L.marker([-7.75806174, 110.38192678], {icon:kuning}).bindPopup('Bensin Eceran <br> <img src = "foto/1558415491484.jpg" /> <br>Barat Jl. Kaliurang. Timur  artotel'),
+		c5 = L.marker([-7.75449454, 110.38237975], {icon:kuning}).bindPopup('Bensin Eceran <br> <img src = "foto/1558415727528.jpg" /> <br>Utara Jl. Pandega Marta. Utara Indomaret'),
+		c6 = L.marker([-7.75658317, 110.37272144], {icon:kuning}).bindPopup('Bensin Eceran <br> <img src = "foto/1558416061568.jpg" /> <br>Selatan  Jl. Pandega Marta.  Timur pertigaan '),
+		c7 = L.marker([-7.76162726, 110.37459489], {icon:kuning}).bindPopup('Bensin Eceran <br> <img src = "foto/1558416442566.jpg" /> <br>Pogung Dalangan. Toko dimas'),
+		c8 = L.marker([-7.76304431, 110.37318747], {icon:kuning}).bindPopup('Bensin Eceran <br> <img src = "foto/1558422157476.jpg" /> <br>Selatan MasjidSiswa Graha'),
+		c9 = L.marker([-7.76208693, 110.37329476], {icon:kuning}).bindPopup('Bensin Eceran <br> <img src = "foto/1558422218365.jpg" /> <br>Timur Jl. Selokan Mataram. Barat ayam kremes tulang lunak'),
+		c10 = L.marker([-7.76175242, 110.37305324], {icon:kuning}).bindPopup('Bensin Eceran <br> <img src = "foto/1558422274219.jpg" /> <br>Timur Jl. Selokan Mataram. Timur mie ayam '),
+		c11 = L.marker([-7.764043, 110.37462374], {icon:kuning}).bindPopup('Bensin Eceran <br> <img src = "foto/1558430884460.jpg" /> <br>Utara Jl. Pogung Kidul. Pertigaan pogung kidul blok A'),
+		c12 = L.marker([-7.77088594, 110.37325617], {icon:kuning}).bindPopup('Bensin Eceran <br> <img src = "foto/1558431071809.jpg" /> <br>Barat Jl. Kesehatan. Utara Asrama UGM sendowo ,  selatan toko bali'),
+		c13 = L.marker([-7.776187, 110.37704546], {icon:kuning}).bindPopup('Bensin Eceran <br> <img src = "foto/1558431451856.jpg" /> <br>Utara Jl. Colombo. Bunderan UGM, utara panti rapih'),
+		c14 = L.marker([-7.77620908, 110.37717774], {icon:kuning}).bindPopup('Bensin Eceran <br> <img src = "foto/1558431517226.jpg" /> <br>Utara Jl. Colombo. Bunderan UGM,  utara panti rapih'),
+		c15 = L.marker([-7.75287415, 110.3705848], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558412497505.jpg" /> <br>Sebelah timur Jl. Monjali.  Depan toko stempel express'),
+		c16 = L.marker([-7.75416058, 110.37010453], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558412664654.jpg" /> <br>Sebelah barat Jl. Monjali. Selatan hp service center'),
+		c17 = L.marker([-7.77024341, 110.36855051], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558413492741.jpg" /> <br>Batas kota Jogja jl monjali. Depan asrama putra Kutai Kartanegara'),
+		c18 = L.marker([-7.77549954, 110.3680272], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558413730404.jpg" /> <br>Timur Jl. Monjali. Utara halte trans jogja. Barat Kampus STIE Nusa Megarkencana'),
+		c19 = L.marker([-7.77624058, 110.37240894], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414175466.jpg" /> <br>Barat Jl. Sardjito. Pertigaan Fisipol MAP UGM'),
+		c20 = L.marker([-7.77538486, 110.37278326], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414230049.jpg" /> <br>Timur Jl. Sardjito. Pertigaan Fisipol MAP UGM'),
+		c21 = L.marker([-7.77370045, 110.3752954], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414415118.jpg" /> <br>Timur Jl. Persatuan. Utara Bank BNI.  Timur Bank Mandiri'),
+		c22 = L.marker([-7.77295363, 110.37565498], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414513328.jpg" /> <br>Timur Jl. Persatuan.  Barat Bank BRI'),
+		c23 = L.marker([-7.77213122, 110.37589397], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414562230.jpg" /> <br>Timur Jl. Persatuan. Utara Bank BRI'),
+		c24 = L.marker([-7.77174061, 110.37601753], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414673895.jpg" /> <br>Timur Jl. Persatuan. Gerbang barat GSP UGM'),
+		c25 = L.marker([-7.76456157, 110.37906559], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414954366.jpg" /> <br>Timur Jl. Kaliurang. Gerbang timur MM UGM'),
+		c26 = L.marker([-7.7641082, 110.37929511], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558415013611.jpg" /> <br>Barat  Jl. Kaliurang km 4,5. Timur toko besi dan listrik murah'),
+		c27 = L.marker([-7.7565585, 110.37275275], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558416020233.jpg" /> <br>Utara Jl. Pandega Marta.Depan kora pandega'),
+		c28 = L.marker([-7.75938584, 110.37221465], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558416165857.jpg" /> <br>Barat Jl. Selokan Mataram. Perempatan Pogung dalangan'),
+		c29 = L.marker([-7.76035873, 110.37211627], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558416231381.jpg" /> <br>Barat Jl. Selokan Mataram. Selatan castrol'),
+		c30 = L.marker([-7.76332496, 110.37364231], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558430829747.jpg" /> <br>Timur Jl. Selokan Mataram.selatan warung kedaiku'),
+		c31 = L.marker([-7.77603639, 110.37656219], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558431408407.jpg" /> <br>Utara Jl. Colombo. Bunderan UGM,  utara panti rapih'),
+		c32 = L.marker([-7.77613958, 110.37821217], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558431557030.jpg" /> <br>Utara Jl. Colombo. Bunderan UGM,  utara panti rapih'),
+		c33 = L.marker([-7.75627566, 110.3705664], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban + Bengkel <br> <img src = "foto/1558412258028.jpg" /> <br>Jl.  Tirtamarta 1, Pandega. Selatan PDAM monjali,  Timur soto ijo'),
+		c34 = L.marker([-7.76581191, 110.36912266], {icon:kuning}).bindPopup('Bensin Eceran + Tambal Ban + Bengkel <br> <img src = "foto/1558413249017.jpg" /> <br>Timur Jl. Monjali. Utara ahas monjali'),
+		d1 = L.marker([-7.75287415, 110.3705848], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558412497505.jpg" /> <br>Sebelah timur Jl. Monjali.  Depan toko stempel express'),
+		d2 = L.marker([-7.75416058, 110.37010453], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558412664654.jpg" /> <br>Sebelah barat Jl. Monjali. Selatan hp service center'),
+		d3 = L.marker([-7.77024341, 110.36855051], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558413492741.jpg" /> <br>Batas kota Jogja jl monjali. Depan asrama putra Kutai Kartanegara'),
+		d4 = L.marker([-7.77549954, 110.3680272], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558413730404.jpg" /> <br>Timur Jl. Monjali. Utara halte trans jogja. Barat Kampus STIE Nusa Megarkencana'),
+		d5 = L.marker([-7.77624058, 110.37240894], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414175466.jpg" /> <br>Barat Jl. Sardjito. Pertigaan Fisipol MAP UGM'),
+		d6 = L.marker([-7.77538486, 110.37278326], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414230049.jpg" /> <br>Timur Jl. Sardjito. Pertigaan Fisipol MAP UGM'),
+		d7 = L.marker([-7.77370045, 110.3752954], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414415118.jpg" /> <br>Timur Jl. Persatuan. Utara Bank BNI.  Timur Bank Mandiri'),
+		d8 = L.marker([-7.77295363, 110.37565498], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414513328.jpg" /> <br>Timur Jl. Persatuan.  Barat Bank BRI'),
+		d9 = L.marker([-7.77213122, 110.37589397], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414562230.jpg" /> <br>Timur Jl. Persatuan. Utara Bank BRI'),
+		d10 = L.marker([-7.77174061, 110.37601753], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414673895.jpg" /> <br>Timur Jl. Persatuan. Gerbang barat GSP UGM'),
+		d11 = L.marker([-7.76456157, 110.37906559], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558414954366.jpg" /> <br>Timur Jl. Kaliurang. Gerbang timur MM UGM'),
+		d12 = L.marker([-7.7641082, 110.37929511], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558415013611.jpg" /> <br>Barat  Jl. Kaliurang km 4,5. Timur toko besi dan listrik murah'),
+		d13 = L.marker([-7.7565585, 110.37275275], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558416020233.jpg" /> <br>Utara Jl. Pandega Marta.Depan kora pandega'),
+		d14 = L.marker([-7.75938584, 110.37221465], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558416165857.jpg" /> <br>Barat Jl. Selokan Mataram. Perempatan Pogung dalangan'),
+		d15 = L.marker([-7.76035873, 110.37211627], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558416231381.jpg" /> <br>Barat Jl. Selokan Mataram. Selatan castrol'),
+		d16 = L.marker([-7.76332496, 110.37364231], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558430829747.jpg" /> <br>Timur Jl. Selokan Mataram.selatan warung kedaiku'),
+		d17 = L.marker([-7.77603639, 110.37656219], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558431408407.jpg" /> <br>Utara Jl. Colombo. Bunderan UGM,  utara panti rapih'),
+		d18 = L.marker([-7.77613958, 110.37821217], {icon:hijau}).bindPopup('Bensin Eceran + Tambal Ban <br> <img src = "foto/1558431557030.jpg" /> <br>Utara Jl. Colombo. Bunderan UGM,  utara panti rapih'),
+		e1 = L.marker([-7.76025676, 110.36948973], {icon:ungu}).bindPopup('Tambal Ban + Pom Bensin <br> <img src = "foto/1558412878575.jpg" /> <br>Jl. Monjali. Utara bakso tengkleng'),
+		e2 = L.marker([-7.75609687, 110.38259528], {icon:ungu}).bindPopup('Tambal Ban + Pom Bensin <br> <img src = "foto/1558415610549.jpg" /> <br>SPBU jakal. Timur Jl. Kaliurang'),
+		f1 = L.marker([-7.75191005, 110.37092564], {icon:abu}).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558412581234.jpg" /> <br>Sebelah Barat Jl. Monjali.  Selatan lampu merah perempatan  ringroad utara '),
+		f2 = L.marker([-7.75652352, 110.36983992], {icon:abu}).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558412750243.jpg" /> <br>sebelah barat Jl. Monjali. Barat warung rata-rata'),
+		f3 = L.marker([-7.76382777, 110.36926607], {icon:abu}).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558413109820.jpg" /> <br>Barat Jl. Monjali.  Depan bengkel Yamaha Monjali'),
+		f4 = L.marker([-7.77815958, 110.36831966], {icon:abu}).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558413909473.jpg" /> <br>Utara Jl. Sardjito. Timur masjid darul ulum. Lampu merah perempatan  Jetis'),
+		f5 = L.marker([-7.76207406, 110.37759746], {icon:abu}).bindPopup('Tambal Ban + Bengkel <br> <img src = "foto/1558416776286.jpg" /> <br>Jl. Sitisonyo. Utara Masjid Nurul Barokah'),
+		g1 = L.marker([-7.77636429, 110.36786839], {icon:oren}).bindPopup('Tambal Ban <br>  <img src = "foto/1558413808390.jpg" /> <br>Timur Jl. Pangeran Mangkubumi. Barat SMK 2 Yogyakarta'),
+		g2 = L.marker([-7.77206518, 110.3759585], {icon:oren}).bindPopup('Tambal Ban <br>  <img src = "foto/1558414622601.jpg" /> <br>Timur Jl. Persatuan. Barat BRI'),
+		g3 = L.marker([-7.76543821, 110.3690668], {icon:oren}).bindPopup('Tambal Ban <br>  <img src = "foto/1558413180806.jpg" /> <br>Timur Jl. Monjali. Utara Upload Steak'),
+		g4 = L.marker([-7.76772982, 110.36892382], {icon:oren}).bindPopup('Tambal Ban <br>  <img src = "foto/1558413403697.jpg" /> <br>Barat Jl. Monjali. Selatan Yamie Panda'),
+		g5 = L.marker([-7.77395307, 110.36819803], {icon:oren}).bindPopup('Tambal Ban <br>  <img src = "foto/1558413673613.jpg" /> <br>Barat Jl. Monjali. Timur hotel tentrem'),
+		g6 = L.marker([-7.77364953, 110.37533077], {icon:oren}).bindPopup('Tambal Ban <br>  <img src = "foto/1558414469664.jpg" /> <br>Barat Jl. Persatuan. Utara Bank Mandiri'),
+		g7 = L.marker([-7.75942813, 110.38115831], {icon:oren}).bindPopup('Tambal Ban <br>  <img src = "foto/1558415354748.jpg" /> <br>Timur Jl. Kaliurang. Selatan after 9'),
+		g8 = L.marker([-7.75849002, 110.38163632], {icon:oren}).bindPopup('Tambal Ban <br>  <img src = "foto/1558415436462.jpg" /> <br>Barat Jl. Kaliurang. Timur apartemen utara'),
+		g9 = L.marker([-7.75571355, 110.3778495], {icon:oren}).bindPopup('Tambal Ban <br>  <img src = "foto/1558415865893.jpg" /> <br>Selatan Jl. Pandega Marta. Timur perempatan Pogung baru'),
+		g10 = L.marker([-7.76728991, 110.3744307], {icon:oren}).bindPopup('Tambal Ban <br>  <img src = "foto/1558421958694.jpg" /> <br>Barat Jl. Kesehatan. Barat gerbang mipa'),
+		g11 = L.marker([-7.77611891, 110.3756881], {icon:oren}).bindPopup('Tambal Ban <br>  <img src = "foto/1558431352381.jpg" /> <br>Utara Jl. Terban. Depan pos menwa'),
+		g12 = L.marker([-7.75287415, 110.3705848], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558412497505.jpg" /> <br>Sebelah timur Jl. Monjali.  Depan toko stempel express'),
+		g13 = L.marker([-7.75416058, 110.37010453], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558412664654.jpg" /> <br>Sebelah barat Jl. Monjali. Selatan hp service center'),
+		g14 = L.marker([-7.77024341, 110.36855051], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558413492741.jpg" /> <br>Batas kota Jogja jl monjali. Depan asrama putra Kutai Kartanegara'),
+		g15 = L.marker([-7.77549954, 110.3680272], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558413730404.jpg" /> <br>Timur Jl. Monjali. Utara halte trans jogja. Barat Kampus STIE Nusa Megarkencana'),
+		g16 = L.marker([-7.77624058, 110.37240894], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558414175466.jpg" /> <br>Barat Jl. Sardjito. Pertigaan Fisipol MAP UGM'),
+		g17 = L.marker([-7.77538486, 110.37278326], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558414230049.jpg" /> <br>Timur Jl. Sardjito. Pertigaan Fisipol MAP UGM'),
+		g18 = L.marker([-7.77370045, 110.3752954], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558414415118.jpg" /> <br>Timur Jl. Persatuan. Utara Bank BNI.  Timur Bank Mandiri'),
+		g19 = L.marker([-7.77295363, 110.37565498], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558414513328.jpg" /> <br>Timur Jl. Persatuan.  Barat Bank BRI'),
+		g20 = L.marker([-7.77213122, 110.37589397], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558414562230.jpg" /> <br>Timur Jl. Persatuan. Utara Bank BRI'),
+		g21 = L.marker([-7.77174061, 110.37601753], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558414673895.jpg" /> <br>Timur Jl. Persatuan. Gerbang barat GSP UGM'),
+		g22 = L.marker([-7.76456157, 110.37906559], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558414954366.jpg" /> <br>Timur Jl. Kaliurang. Gerbang timur MM UGM'),
+		g23 = L.marker([-7.7641082, 110.37929511], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558415013611.jpg" /> <br>Barat  Jl. Kaliurang km 4,5. Timur toko besi dan listrik murah'),
+		g24 = L.marker([-7.7565585, 110.37275275], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558416020233.jpg" /> <br>Utara Jl. Pandega Marta.Depan kora pandega'),
+		g25 = L.marker([-7.75938584, 110.37221465], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558416165857.jpg" /> <br>Barat Jl. Selokan Mataram. Perempatan Pogung dalangan'),
+		g26 = L.marker([-7.76035873, 110.37211627], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558416231381.jpg" /> <br>Barat Jl. Selokan Mataram. Selatan castrol'),
+		g27 = L.marker([-7.76332496, 110.37364231], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558430829747.jpg" /> <br>Timur Jl. Selokan Mataram.selatan warung kedaiku'),
+		g28 = L.marker([-7.77603639, 110.37656219], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558431408407.jpg" /> <br>Utara Jl. Colombo. Bunderan UGM,  utara panti rapih'),
+		g29 = L.marker([-7.77613958, 110.37821217], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban <br>  <img src = "foto/1558431557030.jpg" /> <br>Utara Jl. Colombo. Bunderan UGM,  utara panti rapih'),
+		g30 = L.marker([-7.75191005, 110.37092564], {icon:oren}).bindPopup('Tambal Ban + Bengkel <br>  <img src = "foto/1558412581234.jpg" /> <br>Sebelah Barat Jl. Monjali.  Selatan lampu merah perempatan  ringroad utara '),
+		g31 = L.marker([-7.75652352, 110.36983992], {icon:oren}).bindPopup('Tambal Ban + Bengkel <br>  <img src = "foto/1558412750243.jpg" /> <br>sebelah barat Jl. Monjali. Barat warung rata-rata'),
+		g32 = L.marker([-7.76382777, 110.36926607], {icon:oren}).bindPopup('Tambal Ban + Bengkel <br>  <img src = "foto/1558413109820.jpg" /> <br>Barat Jl. Monjali.  Depan bengkel Yamaha Monjali'),
+		g33 = L.marker([-7.77815958, 110.36831966], {icon:oren}).bindPopup('Tambal Ban + Bengkel <br>  <img src = "foto/1558413909473.jpg" /> <br>Utara Jl. Sardjito. Timur masjid darul ulum. Lampu merah perempatan  Jetis'),
+		g34 = L.marker([-7.76207406, 110.37759746], {icon:oren}).bindPopup('Tambal Ban + Bengkel <br>  <img src = "foto/1558416776286.jpg" /> <br>Jl. Sitisonyo. Utara Masjid Nurul Barokah'),
+		g35 = L.marker([-7.75627566, 110.3705664], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban + Bengkel <br>  <img src = "foto/1558412258028.jpg" /> <br>Jl.  Tirtamarta 1, Pandega. Selatan PDAM monjali,  Timur soto ijo'),
+		g36 = L.marker([-7.76581191, 110.36912266], {icon:oren}).bindPopup('Bensin Eceran + Tambal Ban + Bengkel <br>  <img src = "foto/1558413249017.jpg" /> <br>Timur Jl. Monjali. Utara ahas monjali'),
+		h1 = L.marker([-7.75627566, 110.3705664], {icon:hitam}).bindPopup('Bensin Eceran + Tambal Ban + Bengkel <br> <img src = "foto/1558412258028.jpg" /> <br>Jl.  Tirtamarta 1, Pandega. Selatan PDAM monjali,  Timur soto ijo'),
+		h2 = L.marker([-7.76581191, 110.36912266], {icon:hitam}).bindPopup('Bensin Eceran + Tambal Ban + Bengkel <br> <img src = "foto/1558413249017.jpg" /> <br>Timur Jl. Monjali. Utara ahas monjali');
+
+
+	var all = L.layerGroup([a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20, a21, a22, a23, a24, a25, a26, a27, a28, a29, a30, a31, a32, a33, a34, a35, a36, a37, a38, a39, a40, a41, a42, a43, a44, a45, a46, a47, a48, a49, a50, a51, a52, a53, a54, a55, a56, a57, a58, a59, a60, a61, a62]).addTo(map);
+	var bengkel = L.layerGroup([b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17]);
+	var bensin = L.layerGroup([c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, c31, c32, c33, c34]);
+	var tambal = L.layerGroup([g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12, g13, g14, g15, g16, g17, g18, g19, g20, g21, g22, g23, g24, g25, g26, g27, g28, g29, g30, g31, g32, g33, g34, g35, g36]);
+	var pom = L.layerGroup([e1, e2]);
+	var bentam = L.layerGroup([d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18]);
+	var tambeng = L.layerGroup([f1, f2, f3, f4, f5]);
+	var etambeng = L.layerGroup([h1, h2]);
+	
+	var baseMaps = {
+		"OpenStreetMap" : osm,
+		"Citra Satelit": esri
+	};
+	
+	var overlayMaps = {
+	"<img src='marker/biru26.png' /> <span class='my-layer-item'>Semua Data</span>": all,
+	"<img src='marker/merah26.png' /> <span class='my-layer-item'>Bengkel</span>": bengkel,
+	"<img src='marker/kuning26.png' /> <span class='my-layer-item'>Bensin Eceran</span>": bensin,
+	"<img src='marker/oren26.png' /> <span class='my-layer-item'>Tambal Ban</span>": tambal,
+	"<img src='marker/ungu26.png' /> <span class='my-layer-item'>Pom Bensin + Tambal Ban</span>": pom,
+	"<img src='marker/hijau26.png' /> <span class='my-layer-item'>Bensin Eceran + Tambal Ban</span>": bentam,
+	"<img src='marker/abu26.png' /> <span class='my-layer-item'>Tambal Ban + Bengkel</span>": tambeng,
+	"<img src='marker/hitam26.png' /> <span class='my-layer-item'>Bensin Eceran + Tambal Ban + Bengkel</span>": etambeng
+	};
+	
+	L.control.layers(baseMaps).addTo(map);
+	L.control.layers(overlayMaps).addTo(map);
+	L.Control.geocoder().addTo(map);
+	
+    </script>
+</body>
+</html>
